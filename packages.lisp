@@ -1,4 +1,4 @@
 (in-package :notalone.asdf)
 
 (defpackage :notalone
-  (:use :cl :alexandria))
+  (:use :cl :alexandria :trivial-gamekit))
