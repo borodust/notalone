@@ -12,6 +12,7 @@
   ((world :initform (make-instance 'world))
    (keyboard))
   (:default-initargs
+    :resource-path (asdf:system-relative-pathname :notalone "assets/")
     :viewport-width *viewport-width*
     :viewport-height *viewport-height*
     :viewport-title "notALone"))
@@ -51,6 +52,9 @@
       (%bind-button :s)
       (%bind-button :d))))
 
+
+(defmethod initialize-resources ((this notalone))
+  (import-image :zombie "images/zombie.png"))
 
 
 (defmethod draw ((this notalone))

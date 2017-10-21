@@ -5,4 +5,4 @@
 
 
 (defmethod render ((this zombie))
-  (draw-rect *viewport-origin* 80 140 :stroke-paint *black* :thickness 1.5))
+  (draw-image *viewport-origin* :zombie))
