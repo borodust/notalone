@@ -1,12 +1,23 @@
 (in-package :notalone)
 
 
-(defclass player (positionable renderable) ())
+(defclass player (movable positionable renderable)
+  ((position-updated :initform (ge.util:epoch-seconds))))
+
+
+(defun calc-position (player current-time)
+  (with-slots (position-updated) player
+    (if (/= current-time position-updated)
+        (let ((time-delta (- current-time position-updated)))
+          (setf position-updated current-time
+                (position-of player) (add (position-of player)
+                                          (mult (velocity-of player) time-delta))))
+        (position-of player))))
 
 
 (defun look-at (player x y)
-  (setf (angle-of player) (- (atan (- y (y-of player)) (- x (x-of player)))
-                             (/ pi 2) )))
+  (setf (angle-of player) (- (atan (- y (y *viewport-center*)) (- x (x *viewport-center*)))
+                             (/ pi 2))))
 
 
 (defmethod render ((this player))
@@ -14,7 +25,7 @@
         (end-angle (* 5.5 (/ pi 8)))
         (radius 250)
         (aa-delta 1.0))
-    (draw-arc (vec2 0 0) radius start-angle end-angle :fill-paint *white*)
+    (draw-arc *viewport-origin* radius start-angle end-angle :fill-paint *white*)
     (draw-polygon (list (vec2 -5 0) (vec2 5 0)
                         (vec2 (* radius (cos start-angle)) (+ aa-delta (* radius (sin start-angle))))
                         (vec2 (* radius (cos end-angle)) (+ aa-delta (* radius (sin end-angle)))))

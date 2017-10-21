@@ -7,21 +7,17 @@
    (junk :initform (make-instance 'junk))))
 
 
-(defmethod initialize-instance :after ((this world) &key)
-  (with-slots (player zombie junk) this
-    (setf (x-of player) 400
-          (y-of player) 300
-
-          (x-of zombie) 300
-          (y-of zombie) 400
-
-          (x-of junk) 400
-          (y-of junk) 350)))
-
-
 (defmethod render ((this world))
   (with-slots (player zombie junk) this
-    (draw-rect (vec2 0 0) 800 600 :fill-paint *black*)
-    (render player)
-    (render zombie)
-    (render junk)))
+    (let ((player-position (calc-position player (ge.util:epoch-seconds))))
+      (draw-rect *viewport-origin* *viewport-width* *viewport-height* :fill-paint *black*)
+      (ge.vg:with-pushed-canvas ()
+        (ge.vg:translate-canvas (x *viewport-center*) (y *viewport-center*))
+        (ge.vg:rotate-canvas (angle-of player))
+        (render player))
+      (ge.vg:with-pushed-canvas ()
+        (ge.vg:translate-canvas (- 300 (x player-position)) (- 400 (y player-position)))
+        (render zombie))
+      (ge.vg:with-pushed-canvas ()
+        (ge.vg:translate-canvas (- 400 (x player-position)) (- 350 (y player-position)))
+        (render junk)))))
