@@ -13,4 +13,9 @@
   :depends-on (alexandria trivial-gamekit)
   :serial t
   :components ((:file "packages")
+               (:file "util")
+               (:file "player")
+               (:file "zombie")
+               (:file "junk")
+               (:file "world")
                (:file "main")))
