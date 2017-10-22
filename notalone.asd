@@ -14,6 +14,7 @@
   :serial t
   :components ((:file "packages")
                (:file "util")
+               (:file "animation")
                (:file "player")
                (:file "zombie")
                (:file "junk")
