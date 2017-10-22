@@ -8,8 +8,19 @@
    (shots :initform nil)))
 
 
+(defun rotate-vec (vec angle)
+  (vec2 (- (* (x vec) (cos angle)) (* (y vec) (sin angle)))
+        (+ (* (x vec) (sin angle)) (* (y vec) (cos angle)))))
+
+
+(defun zombie-hit-p (player zombie)
+  (let ((player-pos (position-of player)))
+    (intersect-p player-pos (add player-pos (mult (rotate-vec (vec2 1 0) (angle-of player)) 130))
+                 (add (vec2 30 35) (position-of zombie)) 40)))
+
+
 (defun fire-shotgun (world)
-  (with-slots (shots player) world
+  (with-slots (shots player zombies) world
     (setf shots (loop for shot in shots
                    unless (shot-expired-p shot (ge.util:real-time-seconds))
                    collect shot))
@@ -18,7 +29,10 @@
                                 :position (vec2 (x player-pos) (y player-pos))
                                 :angle (angle-of player))))
       (pull-trigger shot)
-      (push shot shots))))
+      (push shot shots))
+    (setf zombies (loop for zombie in zombies
+                     unless (zombie-hit-p player zombie)
+                     collect zombie))))
 
 
 (defun spawn-zombie (world x y)

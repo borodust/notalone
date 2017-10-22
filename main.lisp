@@ -56,7 +56,7 @@
   (with-slots (world last-zombie-spawned) this
     (let ((current-time (ge.util:real-time-seconds))
           (position (position-of (player-of world))))
-      (when (> (- current-time last-zombie-spawned) 9)
+      (when (> (- current-time last-zombie-spawned) 10)
         (setf last-zombie-spawned current-time)
         (spawn-zombie world (x position) (y position))))
     (lead-zombies world)))
