@@ -25,7 +25,20 @@
                                                  :looped-p t))
 
 
+(defparameter *zombie-speed* 120)
+
+
 (defclass zombie (movable renderable) ())
+
+
+(defun seek-player (zombie player)
+  (let* ((zombie-position (position-of zombie))
+         (player-position (position-of player)))
+    (setf (velocity-of zombie) (mult (ge.math:normalize (vec2 (- (x player-position)
+                                                                 (x zombie-position))
+                                                              (- (y player-position)
+                                                                 (y zombie-position))))
+                                     *zombie-speed*))))
 
 
 (defmethod render ((this zombie))

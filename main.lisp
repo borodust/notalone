@@ -5,11 +5,9 @@
   :test #'=)
 
 
-(defvar *player-speed* 100) ; px/sec
-
-
 (defclass notalone (gamekit:gamekit-system)
   ((world :initform (make-instance 'world))
+   (last-zombie-spawned :initform 0)
    (keyboard))
   (:default-initargs
     :resource-path (asdf:system-relative-pathname :notalone "assets/")
@@ -52,6 +50,16 @@
       (%bind-button :s)
       (%bind-button :d))
     (bind-button :mouse-left :pressed (lambda () (fire-shotgun world)))))
+
+
+(defmethod act ((this notalone))
+  (with-slots (world last-zombie-spawned) this
+    (let ((current-time (ge.util:real-time-seconds))
+          (position (position-of (player-of world))))
+      (when (> (- current-time last-zombie-spawned) 9)
+        (setf last-zombie-spawned current-time)
+        (spawn-zombie world (x position) (y position))))
+    (lead-zombies world)))
 
 
 (defmethod initialize-resources ((this notalone))

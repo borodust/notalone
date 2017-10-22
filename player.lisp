@@ -1,6 +1,9 @@
 (in-package :notalone)
 
 
+(defvar *player-speed* 100) ; px/sec
+
+
 (defclass player (movable renderable)
   ())
 

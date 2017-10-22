@@ -26,6 +26,12 @@
     (push (make-instance 'zombie :position (vec2 x y)) zombies)))
 
 
+(defun lead-zombies (world)
+  (with-slots (zombies) world
+    (loop for zombie in zombies
+       do (seek-player zombie (player-of world)))))
+
+
 (defmethod render ((this world))
   (with-slots (player zombies junk shots) this
     (let ((player-position (calc-position player (ge.util:epoch-seconds))))
