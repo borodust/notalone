@@ -51,8 +51,19 @@
 ;;;
 ;;; Moving
 ;;;
-(defclass movable ()
-  ((velocity :initform (vec2 0 0) :accessor velocity-of)))
+(defclass movable (positionable)
+  ((velocity :initform (vec2 0 0) :accessor velocity-of)
+   (last-updated :initform (ge.util:real-time-seconds))))
+
+
+(defun calc-position (movable current-time)
+  (with-slots (last-updated) movable
+    (if (/= current-time last-updated)
+        (let ((time-delta (- current-time last-updated)))
+          (setf last-updated current-time
+                (position-of movable) (add (position-of movable)
+                                           (mult (velocity-of movable) time-delta))))
+        (position-of movable))))
 
 ;;;
 ;;; Keyboard

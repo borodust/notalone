@@ -1,18 +1,8 @@
 (in-package :notalone)
 
 
-(defclass player (movable positionable renderable)
-  ((position-updated :initform (ge.util:epoch-seconds))))
-
-
-(defun calc-position (player current-time)
-  (with-slots (position-updated) player
-    (if (/= current-time position-updated)
-        (let ((time-delta (- current-time position-updated)))
-          (setf position-updated current-time
-                (position-of player) (add (position-of player)
-                                          (mult (velocity-of player) time-delta))))
-        (position-of player))))
+(defclass player (movable renderable)
+  ())
 
 
 (defun look-at (player x y)

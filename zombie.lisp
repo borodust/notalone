@@ -25,7 +25,7 @@
                                                  :looped-p t))
 
 
-(defclass zombie (positionable renderable) ())
+(defclass zombie (movable renderable) ())
 
 
 (defmethod render ((this zombie))

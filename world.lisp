@@ -3,8 +3,8 @@
 
 (defclass world (renderable)
   ((player :initform (make-instance 'player) :reader player-of)
-   (zombie :initform (make-instance 'zombie))
-   (junk :initform (make-instance 'junk))
+   (zombies :initform nil)
+   (junk :initform nil)
    (shots :initform nil)))
 
 
@@ -21,21 +21,30 @@
       (push shot shots))))
 
 
+(defun spawn-zombie (world x y)
+  (with-slots (zombies) world
+    (push (make-instance 'zombie :position (vec2 x y)) zombies)))
+
+
 (defmethod render ((this world))
-  (with-slots (player zombie junk shots) this
+  (with-slots (player zombies junk shots) this
     (let ((player-position (calc-position player (ge.util:epoch-seconds))))
       (draw-rect *viewport-origin* *viewport-width* *viewport-height* :fill-paint *black*)
       (ge.vg:translate-canvas (x *viewport-center*) (y *viewport-center*))
       (ge.vg:with-pushed-canvas ()
         (ge.vg:rotate-canvas (angle-of player))
         (render player))
-      (ge.vg:with-pushed-canvas ()
-        (ge.vg:translate-canvas (- (x (position-of zombie)) (x player-position))
-                                (- (y (position-of zombie)) (y player-position)))
-        (render zombie))
-      (ge.vg:with-pushed-canvas ()
-        (ge.vg:translate-canvas (- 100 (x player-position)) (- 10 (y player-position)))
-        (render junk))
+      (loop for zombie in zombies
+         do (ge.vg:with-pushed-canvas ()
+              (let ((zombie-pos (calc-position zombie (ge.util:epoch-seconds))))
+                (ge.vg:translate-canvas (- (x zombie-pos) (x player-position))
+                                        (- (y zombie-pos) (y player-position))))
+              (render zombie)))
+      (loop for thing in junk
+         do (ge.vg:with-pushed-canvas ()
+              (ge.vg:translate-canvas (- (x (position-of junk)) (x player-position))
+                                      (- (y (position-of junk)) (y player-position)))
+              (render junk)))
       (loop for shot in shots
          do (ge.vg:with-pushed-canvas ()
               (let ((shot-position (position-of shot)))
