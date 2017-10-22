@@ -18,5 +18,6 @@
                (:file "player")
                (:file "zombie")
                (:file "junk")
+               (:file "shotgun")
                (:file "world")
                (:file "main")))

@@ -50,7 +50,8 @@
       (%bind-button :w)
       (%bind-button :a)
       (%bind-button :s)
-      (%bind-button :d))))
+      (%bind-button :d))
+    (bind-button :mouse-left :pressed (lambda () (fire-shotgun world)))))
 
 
 (defmethod initialize-resources ((this notalone))

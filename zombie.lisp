@@ -3,22 +3,26 @@
 
 (defparameter *zombie-walk-front* (make-animation '((0 219 62 291 0)
                                                     (124 219 186 291 0.25)
-                                                    (0 219 62 291 0.5))))
+                                                    (0 219 62 291 0.5))
+                                                  :looped-p t))
 
 
 (defparameter *zombie-walk-back* (make-animation '((0 72 62 144 0)
                                                    (125 72 186 144 0.25)
-                                                   (0 72 62 144 0.5))))
+                                                   (0 72 62 144 0.5))
+                                                 :looped-p t))
 
 
 (defparameter *zombie-walk-right* (make-animation '((0 144 62 219 0)
                                                     (121 145 186 219 0.25)
-                                                    (0 144 62 219 0.5))))
+                                                    (0 144 62 219 0.5))
+                                                  :looped-p t))
 
 
 (defparameter *zombie-walk-left* (make-animation '((0 0 60 72 0)
                                                    (120 1 186 72 0.25)
-                                                   (0 0 60 72 0.5))))
+                                                   (0 0 60 72 0.5))
+                                                 :looped-p t))
 
 
 (defclass zombie (positionable renderable) ())

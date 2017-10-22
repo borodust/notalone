@@ -31,8 +31,14 @@
 
 
 (defclass positionable ()
-  ((position :initform (vec2 0 0) :reader position-of)
-   (angle :initform 0 :accessor angle-of)))
+  ((position :initform (vec2 0 0) :initarg :position :reader position-of)
+   (angle :initform 0 :initarg :angle :accessor angle-of)))
+
+
+(defmethod (setf position-of) ((vec vec2) (this positionable))
+  (setf (x (position-of this)) (x vec)
+        (y (position-of this)) (y vec))
+  (position-of this))
 
 
 (defmethod (setf position-of) ((vec vec2) (this positionable))
