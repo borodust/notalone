@@ -5,7 +5,12 @@
 
 
 (defclass player (movable renderable)
-  ())
+  ((dead-p :initform nil :reader dead-p)))
+
+
+(defun kill-player (player)
+  (with-slots (dead-p) player
+    (setf dead-p t)))
 
 
 (defun look-at (player x y)

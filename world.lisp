@@ -3,14 +3,10 @@
 
 (defclass world (renderable)
   ((player :initform (make-instance 'player) :reader player-of)
+   (frags :initform 0)
    (zombies :initform nil)
    (junk :initform nil)
    (shots :initform nil)))
-
-
-(defun rotate-vec (vec angle)
-  (vec2 (- (* (x vec) (cos angle)) (* (y vec) (sin angle)))
-        (+ (* (x vec) (sin angle)) (* (y vec) (cos angle)))))
 
 
 (defun zombie-hit-p (player zombie)
@@ -20,7 +16,7 @@
 
 
 (defun fire-shotgun (world)
-  (with-slots (shots player zombies) world
+  (with-slots (shots player zombies frags) world
     (setf shots (loop for shot in shots
                    unless (shot-expired-p shot (ge.util:real-time-seconds))
                    collect shot))
@@ -31,8 +27,9 @@
       (pull-trigger shot)
       (push shot shots))
     (setf zombies (loop for zombie in zombies
-                     unless (zombie-hit-p player zombie)
-                     collect zombie))))
+                     as hit-p = (zombie-hit-p player zombie)
+                     when hit-p do (incf frags)
+                     unless hit-p collect zombie))))
 
 
 (defun spawn-zombie (world x y)
@@ -46,17 +43,26 @@
        do (seek-player zombie (player-of world)))))
 
 
+(defun zombies-won-p (world)
+  (with-slots (zombies player) world
+    (loop for zombie in zombies
+       thereis (< (ge.math:vector-length (subt (position-of player)
+                                               (add (vec2 30 35) (position-of zombie))))
+                  50))))
+
+
 (defmethod render ((this world))
-  (with-slots (player zombies junk shots) this
-    (let ((player-position (calc-position player (ge.util:epoch-seconds))))
+  (with-slots (player zombies junk shots frags) this
+    (let ((player-position (calc-position player (ge.util:real-time-seconds))))
       (draw-rect *viewport-origin* *viewport-width* *viewport-height* :fill-paint *black*)
+      (print-text (format nil "~A" frags) 10 10 *white*)
       (ge.vg:translate-canvas (x *viewport-center*) (y *viewport-center*))
       (ge.vg:with-pushed-canvas ()
         (ge.vg:rotate-canvas (angle-of player))
         (render player))
       (loop for zombie in zombies
          do (ge.vg:with-pushed-canvas ()
-              (let ((zombie-pos (calc-position zombie (ge.util:epoch-seconds))))
+              (let ((zombie-pos (calc-position zombie (ge.util:real-time-seconds))))
                 (ge.vg:translate-canvas (- (x zombie-pos) (x player-position))
                                         (- (y zombie-pos) (y player-position))))
               (render zombie)))
@@ -71,4 +77,11 @@
                 (ge.vg:translate-canvas (- (x shot-position) (x player-position))
                                         (- (y shot-position) (y player-position))))
               (ge.vg:rotate-canvas (angle-of shot))
-              (render shot))))))
+              (render shot)))
+      (when (dead-p player)
+        (print-text (format nil "YOU DIED")
+                    (- (x *viewport-center*) 50)
+                    (+ (y *viewport-center*) 100) *black*)
+        (print-text (format nil "YOU DIED")
+                    (- (x *viewport-center*) 50)
+                    (- (y *viewport-center*) 100) *white*)))))

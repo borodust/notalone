@@ -22,3 +22,8 @@
                       (* 2 a))))
           (or (<= 0 t1 1)
               (<= 0 t2 1))))))
+
+
+(defun rotate-vec (vec angle)
+  (vec2 (- (* (x vec) (cos angle)) (* (y vec) (sin angle)))
+        (+ (* (x vec) (sin angle)) (* (y vec) (cos angle)))))

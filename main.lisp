@@ -52,14 +52,27 @@
     (bind-button :mouse-left :pressed (lambda () (fire-shotgun world)))))
 
 
+(defun unbind-buttons ()
+  (loop for button in '(:w :a :s :d :mouse-left)
+     do (bind-button button :pressed nil)
+     do (bind-button button :released nil)))
+
+
 (defmethod act ((this notalone))
   (with-slots (world last-zombie-spawned) this
-    (let ((current-time (ge.util:real-time-seconds))
-          (position (position-of (player-of world))))
-      (when (> (- current-time last-zombie-spawned) 10)
-        (setf last-zombie-spawned current-time)
-        (spawn-zombie world (x position) (y position))))
-    (lead-zombies world)))
+    (lead-zombies world)
+    (unless (dead-p (player-of world))
+      (let ((current-time (ge.util:real-time-seconds))
+            (player-position (position-of (player-of world))))
+        (when (> (- current-time last-zombie-spawned) 1)
+          (setf last-zombie-spawned current-time)
+          (let* ((angle (random (* 2 pi)))
+                 (position (add player-position (mult (rotate-vec (vec2 1 0) angle)
+                                                      (+ 300 (random 300))))))
+            (spawn-zombie world (x position) (y position)))))
+      (when (zombies-won-p world)
+        (kill-player (player-of world))
+        (unbind-buttons)))))
 
 
 (defmethod initialize-resources ((this notalone))
