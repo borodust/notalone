@@ -54,7 +54,8 @@
 
 
 (defmethod initialize-resources ((this notalone))
-  (import-image :zombie "images/zombie.png"))
+  (import-image :zombie "images/zombie.png")
+  (import-image :shotgun-fire "images/shotgun_fire.png"))
 
 
 (defmethod draw ((this notalone))

@@ -12,7 +12,7 @@
 
 
 (defun make-animation (sequence)
-  (let ((frames (loop for (x-orig y-orig x-end y-end time) in (sort sequence #'< :key #'fourth)
+  (let ((frames (loop for (x-orig y-orig x-end y-end time) in (sort sequence #'< :key #'fifth)
                    collect (make-keyframe :origin (vec2 x-orig y-orig)
                                           :end (vec2 x-end y-end)
                                           :time (ge.util:f time)))))

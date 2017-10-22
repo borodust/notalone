@@ -1,6 +1,12 @@
 (in-package :notalone)
 
 
+(defparameter *shotgun-fire* (make-animation '((0 0 160 160 0.0)
+                                               (160 0 320 160 0.15)
+                                               (320 0 480 160 0.2)
+                                               (480 0 600 160 0.3)
+                                               (0 0 0 0 0.4))))
+
 (defclass player (movable positionable renderable)
   ((position-updated :initform (ge.util:epoch-seconds))))
 
@@ -30,4 +36,8 @@
                         (vec2 (* radius (cos start-angle)) (+ aa-delta (* radius (sin start-angle))))
                         (vec2 (* radius (cos end-angle)) (+ aa-delta (* radius (sin end-angle)))))
                   :fill-paint *white*)
-    (draw-arc (vec2 0 -9) 10 start-angle end-angle :fill-paint *black*)))
+    (draw-arc (vec2 0 -9) 10 start-angle end-angle :fill-paint *black*)
+    (let ((frame (get-frame *shotgun-fire* (ge.util:real-time-seconds))))
+      (draw-image (vec2 -80 0) :shotgun-fire
+                  :image-origin (keyframe-origin frame)
+                  :image-end (keyframe-end frame)))))
