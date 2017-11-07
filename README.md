@@ -14,7 +14,9 @@ SHOOT 'EM ALL!
 
 ## Installation and running
 
-Unfortunately, binaries are not available yet, but you can install it via `quicklisp`:
+Binaries available at [itch.io](https://borodust.itch.io/notalone#download) page.
+
+You also can install it via `quicklisp`:
 
 ```lisp
 (ql-dist:install-dist "http://bodge.borodust.org/dist/org.borodust.bodge.txt")
@@ -29,9 +31,8 @@ Unfortunately, binaries are not available yet, but you can install it via `quick
 * OpenGL 3.3+
 * 64-bit (x86_64) Windows, GNU/Linux or macOS
 * x86_64 SBCL or CCL
-* Quicklisp
 
 
 ## Info
 
-Built with [trivial-gamekit](https://github.com/borodust/trivial-gamekit)
+Made with [trivial-gamekit](https://github.com/borodust/trivial-gamekit)

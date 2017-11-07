@@ -47,6 +47,6 @@
 
 (defmethod render ((this zombie))
   (let ((frame (get-frame *zombie-walk-front* (ge.util:real-time-seconds))))
-    (draw-image *viewport-origin* :zombie
+    (draw-image *viewport-origin* 'zombie
                 :image-origin (keyframe-origin frame)
                 :image-end (keyframe-end frame))))

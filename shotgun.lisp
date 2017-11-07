@@ -30,6 +30,6 @@
   (ge.vg:with-pushed-canvas ()
     (ge.vg:rotate-canvas (- (/ pi 2)))
     (let ((frame (get-frame fire-animation (ge.util:real-time-seconds))))
-      (draw-image (vec2 -80 0) :shotgun-fire
+      (draw-image (vec2 -80 0) 'shotgun-fire
                   :image-origin (keyframe-origin frame)
                   :image-end (keyframe-end frame))))))

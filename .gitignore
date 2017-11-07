@@ -13,3 +13,5 @@ local/
 
 # macOS crap
 **/.DS_Store
+
+build/

@@ -5,15 +5,14 @@
   :test #'=)
 
 
-(defclass notalone (gamekit:gamekit-system)
+(defgame notalone ()
   ((world :initform (make-instance 'world))
    (last-zombie-spawned :initform 0)
    (keyboard))
-  (:default-initargs
-    :resource-path (asdf:system-relative-pathname :notalone "assets/")
-    :viewport-width *viewport-width*
-    :viewport-height *viewport-height*
-    :viewport-title "notALone"))
+  (:resource-path (:notalone (asdf:system-relative-pathname :notalone "assets/")))
+  (:viewport-width *viewport-width*)
+  (:viewport-height *viewport-height*)
+  (:viewport-title "NOTALONE"))
 
 
 (defun key-combination-to-velocity (keyboard)
@@ -75,9 +74,8 @@
         (unbind-buttons)))))
 
 
-(defmethod initialize-resources ((this notalone))
-  (import-image :zombie "images/zombie.png")
-  (import-image :shotgun-fire "images/shotgun_fire.png"))
+(define-image 'zombie "images/zombie.png")
+(define-image 'shotgun-fire "images/shotgun_fire.png")
 
 
 (defmethod draw ((this notalone))
@@ -85,5 +83,11 @@
     (render world)))
 
 
-(defun play-game ()
-  (gamekit:start 'notalone))
+(defun play-game (&optional blocking)
+  (gamekit:start 'notalone :blocking blocking))
+
+
+(defun main (args)
+  (declare (ignore args))
+
+  (play-game t))

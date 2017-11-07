@@ -7,7 +7,7 @@
 
 (defsystem :notalone
   :description "Autumn 2017 Lisp Game Jam entry"
-  :license "GNUv3"
+  :license "GPLv3"
   :version "1.0.0"
   :author "Pavel Korolev <dev@borodust.org>"
   :depends-on (alexandria trivial-gamekit)
@@ -22,3 +22,13 @@
                (:file "shotgun")
                (:file "world")
                (:file "main")))
+
+
+(defsystem notalone/distribution
+  :description "NOTALONE distribution"
+  :version "0.0.1"
+  :author "Pavel Korolev"
+  :mailto "dev@borodust.org"
+  :license "GPLv3"
+  :depends-on (notalone cl-bodge/distribution)
+  :components ((:file "notalone.dist")))
