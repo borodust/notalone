@@ -85,9 +85,3 @@
 
 (defun play-game (&optional blocking)
   (gamekit:start 'notalone :blocking blocking))
-
-
-(defun main (args)
-  (declare (ignore args))
-
-  (play-game t))

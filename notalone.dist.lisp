@@ -1,2 +1,1 @@
-(ge.dist:descriptor :notalone
-  :entry-function (:notalone main))
+(gamekit.distribution:descriptor :notalone notalone::notalone)

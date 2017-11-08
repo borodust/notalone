@@ -30,5 +30,5 @@
   :author "Pavel Korolev"
   :mailto "dev@borodust.org"
   :license "GPLv3"
-  :depends-on (notalone cl-bodge/distribution)
+  :depends-on (notalone trivial-gamekit/distribution)
   :components ((:file "notalone.dist")))
