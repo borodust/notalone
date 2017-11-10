@@ -1,0 +1,30 @@
+language: common-lisp
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - zip
+
+env:
+  global:
+    - PATH=~/.roswell/bin:$PATH
+    - ROSWELL_INSTALL_DIR=$HOME/.roswell
+  matrix:
+    - LISP=sbcl-bin
+
+install:
+  - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh
+  - ros run -e '(ql-dist:install-dist "http://bodge.borodust.org/dist/org.borodust.bodge.txt" :prompt nil)' -q
+  - ros install trivial-gamekit
+
+cache:
+  directories:
+    - $HOME/.roswell
+    - $HOME/.config/common-lisp
+
+before_script:
+  ln -s $TRAVIS_BUILD_DIR ~/.roswell/local-projects/
+
+script:
+  - ros -L sbcl-bin run -s notalone/distribution -e '(ge.dist:make-distribution :notalone)' -q
