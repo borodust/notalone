@@ -14,7 +14,7 @@ SHOOT 'EM ALL!
 
 ## Installation and running
 
-Binaries available at [itch.io](https://borodust.itch.io/notalone#download) page.
+Binaries available at [releases](https://github.com/borodust/notalone/releases) page.
 
 You also can install it via `quicklisp`:
 

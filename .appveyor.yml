@@ -1,0 +1,49 @@
+image:
+  - Visual Studio 2017
+
+platform:
+  - x64
+
+environment:
+  global:
+    GAMEKIT_DIST_NAME: notalone
+    GAMEKIT_ARTIFACT: $(GAMEKIT_DIST_NAME)-x86-64-windows-$(APPVEYOR_REPO_BRANCH).zip
+
+skip_non_tags: true
+
+branches:
+  only:
+    - "/^v\\d+(\\.\\d+)+$/"
+
+install:
+  - set PATH=C:\msys64\usr\bin;%HOMEPATH%\roswell\;%PATH%
+  - pacman --noconfirm -S zip unzip
+  - curl -O bodge.borodust.org/files/roswell-x86_64.zip
+  - unzip roswell-x86_64.zip -d %HOMEPATH%
+  - ros run -e "(ql-dist:install-dist \"http://bodge.borodust.org/dist/org.borodust.bodge.txt\" :prompt nil :replace t)" -q
+  - ros install trivial-gamekit
+  - mkdir %HOMEPATH%\.roswell\local-projects
+  - mklink /D %HOMEPATH%\.roswell\local-projects\%GAMEKIT_DIST_NAME% %APPVEYOR_BUILD_FOLDER%
+
+build_script:
+  - set PATH=C:\msys64\usr\bin;%HOMEPATH%\roswell\;%PATH%
+  - ros -L sbcl-bin run -s %GAMEKIT_DIST_NAME%/distribution -e "(ge.dist:make-distribution :%GAMEKIT_DIST_NAME%)" -q
+  - mv %APPVEYOR_BUILD_FOLDER%/build/%GAMEKIT_DIST_NAME%.zip %APPVEYOR_BUILD_FOLDER%/build/%GAMEKIT_ARTIFACT%
+
+artifacts:
+  - path: build/%GAMEKIT_ARTIFACT%
+    name: release_archive
+
+deploy:
+  provider: GitHub
+  release: $(APPVEYOR_REPO_BRANCH)
+  tag: $(APPVEYOR_REPO_BRANCH)
+  description: $(APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED)
+  auth_token:
+    secure: Z5XWjDOBlCrmfz3SQAjnLKtdgI5B2b/owJhRPNWYGrI+qwVNbBc4cZiroBZReWP7
+  artifact: release_archive
+  force_update: true
+  draft: false
+  prerelease: false
+  on:
+    appveyor_repo_tag: true
