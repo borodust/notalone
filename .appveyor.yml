@@ -7,12 +7,13 @@ platform:
 environment:
   global:
     GAMEKIT_DIST_NAME: notalone
-    GAMEKIT_ARTIFACT: $(GAMEKIT_DIST_NAME)-x86-64-windows-$(APPVEYOR_REPO_BRANCH).zip
+    GAMEKIT_ARTIFACT: $(GAMEKIT_DIST_NAME)-x86-64-windows-$(APPVEYOR_REPO_TAG_NAME).zip
 
 skip_non_tags: true
 
 branches:
   only:
+    - master
     - "/^v\\d+(\\.\\d+)+$/"
 
 install:
@@ -27,7 +28,7 @@ install:
 
 build_script:
   - set PATH=C:\msys64\usr\bin;%HOMEPATH%\roswell\;%PATH%
-  - ros -L sbcl-bin run -s %GAMEKIT_DIST_NAME%/distribution -e "(ge.dist:make-distribution :%GAMEKIT_DIST_NAME%)" -q
+  - ros -L sbcl-bin run -s %GAMEKIT_DIST_NAME%/distribution -e "(gamekit.distribution:deliver :%GAMEKIT_DIST_NAME% '%GAMEKIT_DIST_NAME%::%GAMEKIT_DIST_NAME%)" -q
   - mv %APPVEYOR_BUILD_FOLDER%/build/%GAMEKIT_DIST_NAME%.zip %APPVEYOR_BUILD_FOLDER%/build/%GAMEKIT_ARTIFACT%
 
 artifacts:
@@ -36,9 +37,9 @@ artifacts:
 
 deploy:
   provider: GitHub
-  release: $(APPVEYOR_REPO_BRANCH)
-  tag: $(APPVEYOR_REPO_BRANCH)
-  description: $(APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED)
+  release: $(APPVEYOR_REPO_TAG_NAME)
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  description: $(APPVEYOR_REPO_COMMIT_MESSAGE)
   auth_token:
     secure: Z5XWjDOBlCrmfz3SQAjnLKtdgI5B2b/owJhRPNWYGrI+qwVNbBc4cZiroBZReWP7
   artifact: release_archive

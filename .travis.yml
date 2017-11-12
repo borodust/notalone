@@ -37,7 +37,7 @@ cache:
 before_script: ln -fs $TRAVIS_BUILD_DIR ~/.roswell/local-projects/
 
 script:
-  - ros -L sbcl-bin run -s $GAMEKIT_DIST_NAME/distribution -e "(ge.dist:make-distribution :$GAMEKIT_DIST_NAME)" -q
+  - ros -L sbcl-bin run -s $GAMEKIT_DIST_NAME/distribution -e "(gamekit.distribution:deliver :$GAMEKIT_DIST_NAME '$GAMEKIT_DIST_NAME::$GAMEKIT_DIST_NAME)" -q
 
 before_deploy:
   - mv "$TRAVIS_BUILD_DIR/build/$GAMEKIT_DIST_NAME.zip" $GAMEKIT_TARGET_PACKAGE
