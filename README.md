@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/borodust/notalone.svg?branch=v1.0.4)](https://travis-ci.org/borodust/notalone) [![Build status](https://ci.appveyor.com/api/projects/status/yaef8j6v3a9aqr85?svg=true)](https://ci.appveyor.com/project/borodust/notalone)
+
 # NOTALONE
 
 You wake up nowhere in the night. Hungry zombies around, but your ol' pal "BOOMSTICK" is with you.
