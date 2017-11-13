@@ -29,7 +29,10 @@
   (with-slots (fire-animation) this
   (ge.vg:with-pushed-canvas ()
     (ge.vg:rotate-canvas (- (/ pi 2)))
-    (let ((frame (get-frame fire-animation (ge.util:real-time-seconds))))
+    (let* ((frame (get-frame fire-animation (ge.util:real-time-seconds)))
+           (origin (keyframe-origin frame))
+           (end (keyframe-end frame)))
       (draw-image (vec2 -80 0) 'shotgun-fire
-                  :image-origin (keyframe-origin frame)
-                  :image-end (keyframe-end frame))))))
+                  :origin origin
+                  :width (- (x end) (x origin))
+                  :height (- (y end) (y origin)))))))
