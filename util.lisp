@@ -20,7 +20,7 @@
 
 
 (defmethod render :around ((this renderable))
-  (ge.vg:with-pushed-canvas ()
+  (with-pushed-canvas ()
     (call-next-method)))
 
 

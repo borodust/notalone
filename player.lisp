@@ -18,8 +18,8 @@
 
 
 (defmethod render ((this player))
-  (ge.vg:with-pushed-canvas ()
-    (ge.vg:rotate-canvas (- (/ pi 2)))
+  (with-pushed-canvas ()
+    (rotate-canvas (- (/ pi 2)))
     (let ((start-angle (* 2.5 (/ pi 8)))
           (end-angle (* 5.5 (/ pi 8)))
           (radius 250)

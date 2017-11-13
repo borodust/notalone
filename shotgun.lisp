@@ -27,8 +27,8 @@
 
 (defmethod render ((this shotgun))
   (with-slots (fire-animation) this
-  (ge.vg:with-pushed-canvas ()
-    (ge.vg:rotate-canvas (- (/ pi 2)))
+  (with-pushed-canvas ()
+    (rotate-canvas (- (/ pi 2)))
     (let* ((frame (get-frame fire-animation (ge.util:real-time-seconds)))
            (origin (keyframe-origin frame))
            (end (keyframe-end frame)))
