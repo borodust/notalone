@@ -35,6 +35,11 @@ You also can install it via `quicklisp`:
 * x86_64 SBCL or CCL
 
 
-## Info
+## Credits
+
+* Zombie sprites by [Curt](https://opengameart.org/content/zombie-rpg-sprites)
+* Music "Orbital Colossus" by [Matthew Pablo](http://www.matthewpablo.com/game-soundtrack2)
+* Spooky sounds by [bart](https://opengameart.org/content/25-spooky-sound-effects)
+* Shotgun sound by [Marregheriti](https://freesound.org/people/Marregheriti/sounds/266105/)
 
 Made with [trivial-gamekit](https://github.com/borodust/trivial-gamekit)

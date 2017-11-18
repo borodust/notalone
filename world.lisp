@@ -34,6 +34,7 @@
 
 (defun spawn-zombie (world x y)
   (with-slots (zombies) world
+    (play (aref +zombie-spawn-sounds+ (random (length +zombie-spawn-sounds+))))
     (push (make-instance 'zombie :position (vec2 x y)) zombies)))
 
 

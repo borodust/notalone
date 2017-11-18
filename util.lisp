@@ -68,6 +68,14 @@
 ;;;
 ;;; Keyboard
 ;;;
+
+(defgeneric press-key (keyboard key)
+  (:method (keyboard key)))
+
+(defgeneric release-key (keyboard key)
+  (:method (keyboard key)))
+
+
 (defclass keyboard ()
   ((pressed-keys :initform nil :reader key-combination-of)
    (state-listener :initarg :on-state-change)))
@@ -79,13 +87,13 @@
       (funcall state-listener keyboard))))
 
 
-(defun press-key (keyboard key)
+(defmethod press-key ((keyboard keyboard) key)
   (with-slots (pressed-keys state-listener) keyboard
     (push key pressed-keys)
     (%invoke-state-listener keyboard)))
 
 
-(defun release-key (keyboard key)
+(defmethod release-key ((keyboard keyboard) key)
   (with-slots (pressed-keys) keyboard
     (deletef pressed-keys key)
     (%invoke-state-listener keyboard)))

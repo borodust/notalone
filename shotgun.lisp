@@ -1,6 +1,9 @@
 (in-package :notalone)
 
 
+(define-image 'shotgun-fire "images/shotgun_fire.png")
+(define-sound 'shotgun "sounds/shotgun.wav")
+
 (defclass shotgun (positionable renderable)
   ((fire-animation)))
 
@@ -16,6 +19,7 @@
 
 (defun pull-trigger (shotgun)
   (with-slots (fire-animation) shotgun
+    (play 'shotgun)
     (start-animation fire-animation (ge.util:real-time-seconds))))
 
 

@@ -21,6 +21,7 @@
                (:file "junk")
                (:file "shotgun")
                (:file "world")
+               (:file "state")
                (:file "main")))
 
 

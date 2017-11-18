@@ -5,50 +5,55 @@
   :test #'=)
 
 
+(define-sound 'orbital-colossus "sounds/Orbital_Colossus.ogg")
+
+
 (defgame notalone ()
   ((world :initform (make-instance 'world))
-   (last-zombie-spawned :initform 0)
-   (keyboard))
+   (game-state))
   (:resource-path (:notalone (asdf:system-relative-pathname :notalone "assets/")))
   (:viewport-width *viewport-width*)
   (:viewport-height *viewport-height*)
-  (:viewport-title "NOTALONE"))
-
-
-(defun key-combination-to-velocity (keyboard)
-  (cond
-    ((key-combination-pressed-p keyboard :w :d) (vec2 +diagonal-unit+ +diagonal-unit+))
-    ((key-combination-pressed-p keyboard :s :d) (vec2 +diagonal-unit+ (- +diagonal-unit+)))
-    ((key-combination-pressed-p keyboard :a :s) (vec2 (- +diagonal-unit+) (- +diagonal-unit+)))
-    ((key-combination-pressed-p keyboard :a :w) (vec2 (- +diagonal-unit+) +diagonal-unit+))
-    ((key-combination-pressed-p keyboard :w) (vec2 0 1))
-    ((key-combination-pressed-p keyboard :a) (vec2 -1 0))
-    ((key-combination-pressed-p keyboard :s) (vec2 0 -1))
-    ((key-combination-pressed-p keyboard :d) (vec2 1 0))
-    (t (vec2 0 0))))
+  (:viewport-title "NOTALONE")
+  (:prepare-resources nil))
 
 
 (defmethod post-initialize :after ((this notalone))
-  (with-slots (world keyboard) this
+  (with-slots (game-state) this
     (flet ((%look-at (x y)
-             (look-at (player-of world) x y)))
+             (look-at game-state x y)))
       (bind-cursor #'%look-at))
-    (labels ((update-velocity (keyboard)
-               (setf (velocity-of (player-of world)) (mult (key-combination-to-velocity keyboard)
-                                                           *player-speed*)))
-             (%bind-button (button)
+    (labels ((%bind-button (button)
                (bind-button button :pressed
                             (lambda ()
-                              (press-key keyboard button)))
+                              (press-key game-state button)))
                (bind-button button :released
                             (lambda ()
-                              (release-key keyboard button)))))
-      (setf keyboard (make-instance 'keyboard :on-state-change #'update-velocity))
+                              (release-key game-state button)))))
       (%bind-button :w)
       (%bind-button :a)
       (%bind-button :s)
-      (%bind-button :d))
-    (bind-button :mouse-left :pressed (lambda () (fire-shotgun world)))))
+      (%bind-button :d)
+      (%bind-button :enter))
+    (bind-button :mouse-left :pressed (lambda () (shoot game-state)))
+    (setf game-state (make-instance 'resource-preparation))
+    (prepare-resources this
+                       'zombie 'brains-1 'brains-2 'brains-3 'groan 'crackly-groan
+                       'shotgun-fire 'shotgun
+                       'orbital-colossus)))
+
+
+(defmethod notice-resources ((this notalone) &rest resource-names)
+  (declare (ignore resource-names))
+  (with-slots (game-state world) this
+    (labels ((restart-game ()
+               (setf world (make-instance 'world))
+               (start-game))
+             (end-game ()
+               (setf game-state (make-instance 'game-end :world world :restart #'restart-game)))
+             (start-game ()
+               (setf game-state (make-instance 'game :end #'end-game :world world))))
+      (setf game-state (make-instance 'game-start :start #'start-game)))))
 
 
 (defun unbind-buttons ()
@@ -57,30 +62,14 @@
      do (bind-button button :released nil)))
 
 
-(defmethod act ((this notalone))
-  (with-slots (world last-zombie-spawned) this
-    (lead-zombies world)
-    (unless (dead-p (player-of world))
-      (let ((current-time (ge.util:real-time-seconds))
-            (player-position (position-of (player-of world))))
-        (when (> (- current-time last-zombie-spawned) 1)
-          (setf last-zombie-spawned current-time)
-          (let* ((angle (random (* 2 pi)))
-                 (position (add player-position (mult (rotate-vec (vec2 1 0) angle)
-                                                      (+ 300 (random 300))))))
-            (spawn-zombie world (x position) (y position)))))
-      (when (zombies-won-p world)
-        (kill-player (player-of world))
-        (unbind-buttons)))))
-
-
-(define-image 'zombie "images/zombie.png")
-(define-image 'shotgun-fire "images/shotgun_fire.png")
-
-
 (defmethod draw ((this notalone))
-  (with-slots (world) this
-    (render world)))
+  (with-slots (game-state) this
+    (render game-state)))
+
+
+(defmethod act ((this notalone))
+  (with-slots (game-state) this
+    (act game-state)))
 
 
 (defun play-game (&optional blocking)

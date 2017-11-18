@@ -13,7 +13,10 @@
     (setf dead-p t)))
 
 
-(defun look-at (player x y)
+(defgeneric look-at (player x y)
+  (:method (player x y)))
+
+(defmethod look-at ((player player) x y)
   (setf (angle-of player) (atan (- y (y *viewport-center*)) (- x (x *viewport-center*)))))
 
 
