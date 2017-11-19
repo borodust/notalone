@@ -16,6 +16,7 @@
 
 (defmethod post-initialize :after ((this notalone))
   (with-slots (game-state) this
+    (setf game-state (make-instance 'resource-preparation))
     (flet ((%look-at (x y)
              (look-at game-state x y)))
       (bind-cursor #'%look-at))
@@ -32,7 +33,6 @@
       (%bind-button :d)
       (%bind-button :enter))
     (bind-button :mouse-left :pressed (lambda () (shoot game-state)))
-    (setf game-state (make-instance 'resource-preparation))
     (prepare-resources this
                        'zombie 'brains-1 'brains-2 'brains-3 'groan 'crackly-groan
                        'shotgun-fire 'shotgun

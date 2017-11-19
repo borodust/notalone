@@ -52,6 +52,7 @@
 ;;;
 (defclass game (game-state)
   ((keyboard)
+   (last-groan :initform 0)
    (end-callback :initarg :end)
    (last-zombie-spawned :initform 0)
    (world :initarg :world)))
@@ -100,11 +101,14 @@
 
 
 (defmethod act ((this game))
-  (with-slots (world last-zombie-spawned end-callback) this
+  (with-slots (world last-zombie-spawned end-callback last-groan) this
     (lead-zombies world)
     (unless (dead-p (player-of world))
       (let ((current-time (ge.util:real-time-seconds))
             (player-position (position-of (player-of world))))
+        (when (> (- current-time last-groan) 2)
+          (play-sound (aref +zombie-spawn-sounds+ (random (length +zombie-spawn-sounds+))))
+          (setf last-groan current-time))
         (when (> (- current-time last-zombie-spawned) 1)
           (setf last-zombie-spawned current-time)
           (let* ((angle (random (* 2 pi)))
