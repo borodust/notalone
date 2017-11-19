@@ -19,7 +19,7 @@
 
 (defun pull-trigger (shotgun)
   (with-slots (fire-animation) shotgun
-    (play 'shotgun)
+    (play-sound 'shotgun)
     (start-animation fire-animation (ge.util:real-time-seconds))))
 
 

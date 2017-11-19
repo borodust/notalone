@@ -31,8 +31,13 @@
   ((start-callback :initarg :start)))
 
 
+(defmethod initialize-instance :after ((this game-start) &key)
+  (play-sound 'crackly-groan :looped-p t))
+
+
 (defmethod press-key ((this game-start) (key (eql :enter)))
   (with-slots (start-callback) this
+    (stop-sound 'crackly-groan)
     (funcall start-callback)))
 
 
@@ -91,7 +96,7 @@
                (setf (velocity-of (player-of world)) (mult (key-combination-to-velocity keyboard)
                                                            *player-speed*))))
       (setf keyboard (make-instance 'keyboard :on-state-change #'update-velocity))
-      (play 'orbital-colossus))))
+      (play-sound 'orbital-colossus))))
 
 
 (defmethod act ((this game))

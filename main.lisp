@@ -1,10 +1,6 @@
 (in-package :notalone)
 
 
-(define-constant +diagonal-unit+ 0.70710677
-  :test #'=)
-
-
 (define-sound 'orbital-colossus "sounds/Orbital_Colossus.ogg")
 
 

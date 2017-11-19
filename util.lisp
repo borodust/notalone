@@ -9,6 +9,9 @@
 (defvar *viewport-center* (vec2 (/ *viewport-width* 2) (/ *viewport-height* 2)))
 
 
+(define-constant +diagonal-unit+ 0.70710677
+  :test #'=)
+
 ;;;
 ;;; Rendering
 ;;;

@@ -9,7 +9,7 @@
 (define-sound 'crackly-groan "sounds/spooky/crackly_groan.ogg")
 
 
-(define-constant +zombie-spawn-sounds+ #(brains-1 brains-2 brains-3)
+(define-constant +zombie-spawn-sounds+ #(brains-1 brains-2 brains-3 groan)
   :test #'equalp)
 
 
