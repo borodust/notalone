@@ -4,10 +4,12 @@
 (define-sound 'orbital-colossus "sounds/Orbital_Colossus.ogg")
 
 
+(register-resource-package :notalone (asdf:system-relative-pathname :notalone "assets/"))
+
+
 (defgame notalone ()
   ((world :initform (make-instance 'world))
    (game-state))
-  (:resource-path (:notalone (asdf:system-relative-pathname :notalone "assets/")))
   (:viewport-width *viewport-width*)
   (:viewport-height *viewport-height*)
   (:viewport-title "NOTALONE")
