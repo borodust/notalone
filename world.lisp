@@ -55,7 +55,7 @@
   (with-slots (player zombies junk shots frags) this
     (let ((player-position (calc-position player (ge.util:real-time-seconds))))
       (draw-rect *viewport-origin* *viewport-width* *viewport-height* :fill-paint *black*)
-      (print-text (format nil "~A" frags) 10 10 *white*)
+      (draw-text (format nil "~A" frags) (vec2 10 10) :fill-color *white*)
       (translate-canvas (x *viewport-center*) (y *viewport-center*))
       (with-pushed-canvas ()
         (rotate-canvas (angle-of player))
@@ -79,5 +79,5 @@
               (rotate-canvas (angle-of shot))
               (render shot)))
       (when (dead-p player)
-        (print-text (format nil "YOU DIED") -50 100 *black*)
-        (print-text (format nil "YOU DIED") -50 -100 *white*)))))
+        (draw-text "YOU DIED" (vec2 -50 100) :fill-color *black*)
+        (draw-text "YOU DIED" (vec2 -50 -100) :fill-color *white*)))))

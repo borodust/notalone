@@ -20,8 +20,8 @@
 
 (defmethod render ((this resource-preparation))
   (draw-rect *viewport-origin* *viewport-width* *viewport-height* :fill-paint *black*)
-  (print-text "NOTALONE" 320 400 *white*)
-  (print-text "Loading..." 330 100 *white*))
+  (draw-text "NOTALONE" (vec2 320 400) :fill-color *white*)
+  (draw-text "Loading..." (vec2 330 100) :fill-color *white*))
 
 
 ;;;
@@ -43,8 +43,8 @@
 
 (defmethod render ((this game-start))
   (draw-rect *viewport-origin* *viewport-width* *viewport-height* :fill-paint *black*)
-  (print-text "NOTALONE" 320 400 *white*)
-  (print-text "Press Enter to start" 280 100 *white*))
+  (draw-text "NOTALONE" (vec2 320 400) :fill-color *white*)
+  (draw-text "Press Enter to start" (vec2 280 100) :fill-color *white*))
 
 
 ;;;
@@ -135,7 +135,7 @@
 (defmethod render ((this game-end))
   (with-slots (world) this
     (render world)
-    (print-text "Press Enter to restart game" 250 100 *white*)))
+    (draw-text "Press Enter to restart game" (vec2 250 100) :fill-color *white*)))
 
 
 (defmethod look-at ((this game-end) x y)
