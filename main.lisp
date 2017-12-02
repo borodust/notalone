@@ -35,8 +35,7 @@
       (%bind-button :d)
       (%bind-button :enter))
     (bind-button :mouse-left :pressed (lambda () (shoot game-state)))
-    (prepare-resources this
-                       'zombie 'brains-1 'brains-2 'brains-3 'groan 'crackly-groan
+    (prepare-resources 'zombie 'brains-1 'brains-2 'brains-3 'groan 'crackly-groan
                        'shotgun-fire 'shotgun
                        'orbital-colossus)))
 
