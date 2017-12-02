@@ -6,8 +6,10 @@ platform:
 
 environment:
   global:
-    GAMEKIT_DIST_NAME: notalone
-    GAMEKIT_ARTIFACT: $(GAMEKIT_DIST_NAME)-x86-64-windows-$(APPVEYOR_REPO_TAG_NAME).zip
+    GAMEKIT_SYSTEM_NAME: notalone
+    GAMEKIT_APPLICATION_PACKAGE: notalone
+    GAMEKIT_APPLICATION_MAIN_CLASS: notalone
+    GAMEKIT_ARTIFACT: $(GAMEKIT_SYSTEM_NAME)-x86-64-windows-$(APPVEYOR_REPO_TAG_NAME).zip
 
 skip_non_tags: true
 
@@ -22,14 +24,14 @@ install:
   - curl -O bodge.borodust.org/files/roswell-x86_64.zip
   - unzip roswell-x86_64.zip -d %HOMEPATH%
   - ros run -e "(ql-dist:install-dist \"http://bodge.borodust.org/dist/org.borodust.bodge.txt\" :prompt nil :replace t)" -q
-  - ros install trivial-gamekit
+  - ros install trivial-gamekit/distribution
   - mkdir %HOMEPATH%\.roswell\local-projects
-  - mklink /D %HOMEPATH%\.roswell\local-projects\%GAMEKIT_DIST_NAME% %APPVEYOR_BUILD_FOLDER%
+  - mklink /D %HOMEPATH%\.roswell\local-projects\%GAMEKIT_SYSTEM_NAME% %APPVEYOR_BUILD_FOLDER%
 
 build_script:
   - set PATH=C:\msys64\usr\bin;%HOMEPATH%\roswell\;%PATH%
-  - ros -L sbcl-bin run -s %GAMEKIT_DIST_NAME%/distribution -e "(gamekit.distribution:deliver :%GAMEKIT_DIST_NAME% '%GAMEKIT_DIST_NAME%::%GAMEKIT_DIST_NAME%)" -q
-  - mv %APPVEYOR_BUILD_FOLDER%/build/%GAMEKIT_DIST_NAME%.zip %APPVEYOR_BUILD_FOLDER%/build/%GAMEKIT_ARTIFACT%
+  - ros -L sbcl-bin run -s trivial-gamekit/distribution -s %GAMEKIT_SYSTEM_NAME% -e "(gamekit.distribution:deliver :%GAMEKIT_SYSTEM_NAME% '%GAMEKIT_APPLICATION_PACKAGE%::%GAMEKIT_APPLICATION_MAIN_CLASS%)" -q
+  - mv %APPVEYOR_BUILD_FOLDER%/build/%GAMEKIT_SYSTEM_NAME%.zip %APPVEYOR_BUILD_FOLDER%/build/%GAMEKIT_ARTIFACT%
 
 artifacts:
   - path: build/%GAMEKIT_ARTIFACT%

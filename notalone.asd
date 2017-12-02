@@ -23,12 +23,3 @@
                (:file "world")
                (:file "state")
                (:file "main")))
-
-
-(defsystem :notalone/distribution
-  :description "NOTALONE distribution"
-  :version "0.0.1"
-  :author "Pavel Korolev"
-  :mailto "dev@borodust.org"
-  :license "GPLv3"
-  :depends-on (notalone trivial-gamekit/distribution))

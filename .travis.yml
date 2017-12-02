@@ -8,10 +8,12 @@ addons:
 
 env:
   global:
-  - GAMEKIT_DIST_NAME=notalone
+  - GAMEKIT_SYSTEM_NAME: notalone
+  - GAMEKIT_APPLICATION_PACKAGE: notalone
+  - GAMEKIT_APPLICATION_MAIN_CLASS: notalone
   - PATH=~/.roswell/bin:$PATH
   - ROSWELL_INSTALL_DIR=$HOME/.roswell
-  - GAMEKIT_TARGET_PACKAGE=$GAMEKIT_DIST_NAME-x86-64-$TRAVIS_OS_NAME-$TRAVIS_BRANCH.zip
+  - GAMEKIT_TARGET_PACKAGE=$GAMEKIT_SYSTEM_NAME-x86-64-$TRAVIS_OS_NAME-$TRAVIS_BRANCH.zip
   - secure: DjslSWh4Wjqe/Jd90IwhUb9VZK22aPcIGqMu0era66YVOW6p6OgUGxpOj/w4DbqHcLQBdO6BCtckBV4DFmJPYtYd9wMxAyhi/h1GgeoKjhRDM29uJvPoAe3r4MJxm4zyY8jREQl/5YNN7Q/StrMMDQLWnUPwZZVQrVFd9ppkYrPqxfbsN9Bf3G2ijAdZtjnUlAZhSWS7zPUed6LsKWc9frl1ef1rdnDpCsH7XtqUrKLRvJOl4Gjijt64lkRgXc/QmeSIU7qU92WnV//2K/9RvGNRxspjJlIVGXXlE6Am3GntFSWBt7Vd9wdCNMbchG/d37v/nGm9JfOGuka1gAhOqf6tsrM6J3pAtw/b0q9PnN7YD4RGyuGsapxILFNnUndOGwFIVdll37GV7lH839rUUA4ORPHiv1KnrMS4vSaWX7hV9n9C1eUXhskLo2YnRRdcB3WmY4uP+h/z+tBlRnW84Fe1jxtWhTpDXHGHVQCFfi6mJoZhQ84FnUJZmEsXcMobjlapCkfjrvpIUSGp651H8GyuVoVGd0JqSz2fgf+o0W1Cmp/gggYJCSsMMERizJJ3lNwimkKtYOYRjY128U4BUGJibk0lMI9O0FUqnZ4jtUeIE06foLgcEGkz8gipB7BC3WcwA8IyNsgAWdNhxyOVMgyqU590C2gJ39rDw9mI8fA=
   matrix:
   - LISP=sbcl-bin
@@ -27,7 +29,7 @@ os:
 install:
   - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh
   - ros run -e '(ql-dist:install-dist "http://bodge.borodust.org/dist/org.borodust.bodge.txt" :prompt nil :replace t)' -q
-  - ros install trivial-gamekit
+  - ros install trivial-gamekit/distribution
 
 cache:
   directories:
@@ -37,10 +39,10 @@ cache:
 before_script: ln -fs $TRAVIS_BUILD_DIR ~/.roswell/local-projects/
 
 script:
-  - ros -L sbcl-bin run -s $GAMEKIT_DIST_NAME/distribution -e "(gamekit.distribution:deliver :$GAMEKIT_DIST_NAME '$GAMEKIT_DIST_NAME::$GAMEKIT_DIST_NAME)" -q
+  - ros -L sbcl-bin run -s trivial-gamekit/distribution -s $GAMEKIT_SYSTEM_NAME -e "(gamekit.distribution:deliver :$GAMEKIT_SYSTEM_NAME '$GAMEKIT_APPLICATION_PACKAGE::$GAMEKIT_APPLICATION_MAIN_CLASS)" -q
 
 before_deploy:
-  - mv "$TRAVIS_BUILD_DIR/build/$GAMEKIT_DIST_NAME.zip" $GAMEKIT_TARGET_PACKAGE
+  - mv "$TRAVIS_BUILD_DIR/build/$GAMEKIT_SYSTEM_NAME.zip" $GAMEKIT_TARGET_PACKAGE
 
 deploy:
   provider: releases
