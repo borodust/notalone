@@ -1,11 +1,4 @@
-(cl:in-package :cl-user)
-
-(defpackage :notalone.asdf
-  (:use :cl :asdf))
-(in-package :notalone.asdf)
-
-
-(defsystem :notalone
+(asdf:defsystem :notalone
   :description "Autumn 2017 Lisp Game Jam entry"
   :license "GPLv3"
   :version "1.0.0"

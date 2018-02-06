@@ -1,6 +1,4 @@
-(in-package :notalone.asdf)
-
-(defpackage :notalone
+(cl:defpackage :notalone
   (:use :cl :alexandria :trivial-gamekit)
   (:shadowing-import-from :trivial-gamekit
                           :lerp)
