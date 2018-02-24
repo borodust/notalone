@@ -1,4 +1,4 @@
-(in-package :notalone)
+(cl:in-package :notalone)
 
 
 (define-sound 'orbital-colossus "sounds/Orbital_Colossus.ogg")

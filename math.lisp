@@ -1,4 +1,4 @@
-(in-package :notalone)
+(cl:in-package :notalone)
 
 ;; https://codereview.stackexchange.com/a/86428
 (defun intersect-p (segment-start segment-end circle-center circle-radius)

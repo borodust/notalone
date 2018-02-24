@@ -1,4 +1,4 @@
-(in-package :notalone)
+(cl:in-package :notalone)
 
 
 (defvar *player-speed* 100) ; px/sec

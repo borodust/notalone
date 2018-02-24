@@ -1,4 +1,4 @@
-(in-package :notalone)
+(cl:in-package :notalone)
 
 
 (define-image 'shotgun-fire "images/shotgun_fire.png")

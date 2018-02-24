@@ -1,4 +1,4 @@
-(in-package :notalone)
+(cl:in-package :notalone)
 
 
 (define-image 'zombie "images/zombie.png")

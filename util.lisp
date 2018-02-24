@@ -1,4 +1,4 @@
-(in-package :notalone)
+(cl:in-package :notalone)
 
 (defvar *black* (vec4 0 0 0 1))
 (defvar *white* (vec4 1 1 1 1))
