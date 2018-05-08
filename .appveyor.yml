@@ -22,11 +22,11 @@ branches:
 install:
   - set PATH=C:\msys64\usr\bin\;%PATH%
   - pacman --noconfirm -S zip
-  - sh -c "curl -L http://bodge.borodust.org/files/install.sh | sh"
+  - sh -c "curl -L http://bodge.borodust.org/files/install.sh | sh -s ccl"
 
 build_script:
   - >
-    sh -c "$HOME/bin/sbcl --script $HOME/bodge/scripts/build-gamekit-system.lisp
+    sh -c "$HOME/bin/lisp $HOME/bodge/scripts/build-gamekit-system.lisp
     %GAMEKIT_SYSTEM_NAME% %GAMEKIT_APPLICATION_PACKAGE% %GAMEKIT_APPLICATION_MAIN_CLASS%
     $(cygpath -u '%APPVEYOR_BUILD_FOLDER%')
     $(cygpath -u '%GAMEKIT_BUILD_DIR%')"

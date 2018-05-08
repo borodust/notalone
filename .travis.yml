@@ -13,7 +13,7 @@ env:
   - GAMEKIT_APPLICATION_MAIN_CLASS: notalone
   - PATH: ~/bin/:$PATH
   - GAMEKIT_TARGET_PACKAGE: $GAMEKIT_SYSTEM_NAME-x86-64-$TRAVIS_OS_NAME-$TRAVIS_BRANCH.zip
-  - GAMEKIT_BUILD_DIR: /tmp/$(GAMEKIT_SYSTEM_NAME)
+  - GAMEKIT_BUILD_DIR: /tmp/$GAMEKIT_SYSTEM_NAME
   - secure: "DjslSWh4Wjqe/Jd90IwhUb9VZK22aPcIGqMu0era66YVOW6p6OgUGxpOj/w4DbqHcLQBdO6BCtckBV4DFmJPYtYd9wMxAyhi/h1GgeoKjhRDM29uJvPoAe3r4MJxm4zyY8jREQl/5YNN7Q/StrMMDQLWnUPwZZVQrVFd9ppkYrPqxfbsN9Bf3G2ijAdZtjnUlAZhSWS7zPUed6LsKWc9frl1ef1rdnDpCsH7XtqUrKLRvJOl4Gjijt64lkRgXc/QmeSIU7qU92WnV//2K/9RvGNRxspjJlIVGXXlE6Am3GntFSWBt7Vd9wdCNMbchG/d37v/nGm9JfOGuka1gAhOqf6tsrM6J3pAtw/b0q9PnN7YD4RGyuGsapxILFNnUndOGwFIVdll37GV7lH839rUUA4ORPHiv1KnrMS4vSaWX7hV9n9C1eUXhskLo2YnRRdcB3WmY4uP+h/z+tBlRnW84Fe1jxtWhTpDXHGHVQCFfi6mJoZhQ84FnUJZmEsXcMobjlapCkfjrvpIUSGp651H8GyuVoVGd0JqSz2fgf+o0W1Cmp/gggYJCSsMMERizJJ3lNwimkKtYOYRjY128U4BUGJibk0lMI9O0FUqnZ4jtUeIE06foLgcEGkz8gipB7BC3WcwA8IyNsgAWdNhxyOVMgyqU590C2gJ39rDw9mI8fA="
 
 branches:
@@ -25,16 +25,11 @@ os:
   - osx
 
 install:
-  - curl -L http://bodge.borodust.org/files/install.sh | sh
-
-cache:
-  directories:
-  - "$HOME/opt/sbcl/"
-  - "$HOME/.config/common-lisp/"
+  - curl -L http://bodge.borodust.org/files/install.sh | sh -s ccl
 
 script:
   - >
-    sbcl --script $HOME/bodge/scripts/build-gamekit-system.lisp
+    lisp $HOME/bodge/scripts/build-gamekit-system.lisp
     $GAMEKIT_SYSTEM_NAME $GAMEKIT_APPLICATION_PACKAGE $GAMEKIT_APPLICATION_MAIN_CLASS
     $TRAVIS_BUILD_DIR
     $GAMEKIT_BUILD_DIR
