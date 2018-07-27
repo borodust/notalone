@@ -4,7 +4,8 @@ stdenv.mkDerivation {
   name = "notalone-1.2.2";
   builder = ./builder.sh;
   nativeBuildInputs = [ pkgs.makeWrapper pkgs.patchelf ];
-  libPath = lib.makeLibraryPath [ libGL
+  libPath = lib.makeLibraryPath [ pkgs.libGL
+                                  pkgs.pulseaudio
                                   xorg.libXxf86vm
                                   xorg.libX11
                                   xorg.libxcb
