@@ -21,7 +21,7 @@ Binaries available at [releases](https://github.com/borodust/notalone/releases) 
 You also can install it via `quicklisp`:
 
 ```lisp
-(ql-dist:install-dist "http://bodge.borodust.org/dist/org.borodust.bodge.txt")
+(ql-dist:install-dist "http://bodge.borodust.org/dist/org.borodust.bodge.testing.txt")
 
 (ql:quickload :notalone)
 

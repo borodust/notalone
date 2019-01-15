@@ -104,7 +104,7 @@
   (with-slots (world last-zombie-spawned end-callback last-groan) this
     (lead-zombies world)
     (unless (dead-p (player-of world))
-      (let ((current-time (ge.util:real-time-seconds))
+      (let ((current-time (bodge-util:real-time-seconds))
             (player-position (position-of (player-of world))))
         (when (> (- current-time last-groan) 2)
           (play-sound (aref +zombie-spawn-sounds+ (random (length +zombie-spawn-sounds+))))

@@ -48,7 +48,7 @@
       (setf (velocity-of zombie) (vec2 0 0))
       (let* ((zombie-position (position-of zombie))
              (player-position (position-of player)))
-        (setf (velocity-of zombie) (mult (ge.math:normalize (vec2 (- (x player-position)
+        (setf (velocity-of zombie) (mult (ge.ng:normalize (vec2 (- (x player-position)
                                                                      (x zombie-position)
                                                                      30)
                                                                   (- (y player-position)
@@ -58,7 +58,7 @@
 
 
 (defmethod render ((this zombie))
-  (let* ((frame (get-frame *zombie-walk-front* (ge.util:real-time-seconds)))
+  (let* ((frame (get-frame *zombie-walk-front* (bodge-util:real-time-seconds)))
          (origin (keyframe-origin frame))
          (end (keyframe-end frame)))
     (draw-image *viewport-origin* 'zombie

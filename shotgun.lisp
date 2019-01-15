@@ -20,7 +20,7 @@
 (defun pull-trigger (shotgun)
   (with-slots (fire-animation) shotgun
     (play-sound 'shotgun)
-    (start-animation fire-animation (ge.util:real-time-seconds))))
+    (start-animation fire-animation (bodge-util:real-time-seconds))))
 
 
 (defun shot-expired-p (shotgun current-time)
@@ -33,7 +33,7 @@
   (with-slots (fire-animation) this
   (with-pushed-canvas ()
     (rotate-canvas (- (/ pi 2)))
-    (let* ((frame (get-frame fire-animation (ge.util:real-time-seconds)))
+    (let* ((frame (get-frame fire-animation (bodge-util:real-time-seconds)))
            (origin (keyframe-origin frame))
            (end (keyframe-end frame)))
       (draw-image (vec2 -80 0) 'shotgun-fire

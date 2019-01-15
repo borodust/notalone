@@ -56,7 +56,7 @@
 ;;;
 (defclass movable (positionable)
   ((velocity :initform (vec2 0 0) :accessor velocity-of)
-   (last-updated :initform (ge.util:real-time-seconds))))
+   (last-updated :initform (bodge-util:real-time-seconds))))
 
 
 (defun calc-position (movable current-time)

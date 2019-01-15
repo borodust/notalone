@@ -3,7 +3,7 @@
   :license "GPLv3"
   :version "1.0.0"
   :author "Pavel Korolev <dev@borodust.org>"
-  :depends-on (alexandria trivial-gamekit)
+  :depends-on (alexandria bodge-utilities trivial-gamekit)
   :serial t
   :components ((:file "packages")
                (:file "util")

@@ -17,7 +17,7 @@
   (let ((frames (loop for (x-orig y-orig x-end y-end time) in (sort sequence #'< :key #'fifth)
                    collect (make-keyframe :origin (vec2 x-orig y-orig)
                                           :end (vec2 x-end y-end)
-                                          :time (ge.util:f time)))))
+                                          :time (bodge-util:f time)))))
     (make-instance 'animation
                    :looped-p looped-p
                    :sequence (make-array (length frames)
@@ -48,5 +48,5 @@
     (let* ((time-delta (- current-time started))
            (animation-timestamp (if looped-p (get-looped-time animation time-delta) time-delta)))
       (multiple-value-bind (result idx)
-          (ge.util:search-sorted animation-timestamp sequence :test #'= :key #'keyframe-time)
+          (bodge-util:search-sorted animation-timestamp sequence :test #'= :key #'keyframe-time)
         (or result (aref sequence (max (1- idx) 0)))))))

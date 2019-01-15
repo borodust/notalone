@@ -18,7 +18,7 @@
 (defun fire-shotgun (world)
   (with-slots (shots player zombies frags) world
     (setf shots (loop for shot in shots
-                   unless (shot-expired-p shot (ge.util:real-time-seconds))
+                   unless (shot-expired-p shot (bodge-util:real-time-seconds))
                    collect shot))
     (let* ((player-pos (position-of player))
            (shot (make-instance 'shotgun
@@ -46,14 +46,14 @@
 (defun zombies-won-p (world)
   (with-slots (zombies player) world
     (loop for zombie in zombies
-       thereis (< (ge.math:vector-length (subt (position-of player)
+       thereis (< (ge.ng:vector-length (subt (position-of player)
                                                (add (vec2 30 35) (position-of zombie))))
                   50))))
 
 
 (defmethod render ((this world))
   (with-slots (player zombies junk shots frags) this
-    (let ((player-position (calc-position player (ge.util:real-time-seconds))))
+    (let ((player-position (calc-position player (bodge-util:real-time-seconds))))
       (draw-rect *viewport-origin* *viewport-width* *viewport-height* :fill-paint *black*)
       (draw-text (format nil "~A" frags) (vec2 10 10) :fill-color *white*)
       (translate-canvas (x *viewport-center*) (y *viewport-center*))
@@ -62,7 +62,7 @@
         (render player))
       (loop for zombie in zombies
          do (with-pushed-canvas ()
-              (let ((zombie-pos (calc-position zombie (ge.util:real-time-seconds))))
+              (let ((zombie-pos (calc-position zombie (bodge-util:real-time-seconds))))
                 (translate-canvas (- (x zombie-pos) (x player-position))
                                   (- (y zombie-pos) (y player-position))))
               (render zombie)))
