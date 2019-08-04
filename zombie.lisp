@@ -1,12 +1,12 @@
 (cl:in-package :notalone)
 
 
-(define-image 'zombie "images/zombie.png")
-(define-sound 'brains-1 "sounds/spooky/brains.ogg")
-(define-sound 'brains-2 "sounds/spooky/brains2.ogg")
-(define-sound 'brains-3 "sounds/spooky/brains3.ogg")
-(define-sound 'groan "sounds/spooky/groan.ogg")
-(define-sound 'crackly-groan "sounds/spooky/crackly_groan.ogg")
+(define-image zombie "images/zombie.png")
+(define-sound brains-1 "sounds/spooky/brains.ogg")
+(define-sound brains-2 "sounds/spooky/brains2.ogg")
+(define-sound brains-3 "sounds/spooky/brains3.ogg")
+(define-sound groan "sounds/spooky/groan.ogg")
+(define-sound crackly-groan "sounds/spooky/crackly_groan.ogg")
 
 
 (define-constant +zombie-spawn-sounds+ #(brains-1 brains-2 brains-3 groan)

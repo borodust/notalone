@@ -1,7 +1,7 @@
 (cl:in-package :notalone)
 
 
-(define-sound 'orbital-colossus "sounds/Orbital_Colossus.ogg")
+(define-sound orbital-colossus "sounds/Orbital_Colossus.ogg")
 
 
 (register-resource-package :notalone (asdf:system-relative-pathname :notalone "assets/"))

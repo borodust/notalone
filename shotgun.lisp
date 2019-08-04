@@ -1,8 +1,8 @@
 (cl:in-package :notalone)
 
 
-(define-image 'shotgun-fire "images/shotgun_fire.png")
-(define-sound 'shotgun "sounds/shotgun.wav")
+(define-image shotgun-fire "images/shotgun_fire.png")
+(define-sound shotgun "sounds/shotgun.wav")
 
 (defclass shotgun (positionable renderable)
   ((fire-animation)))
